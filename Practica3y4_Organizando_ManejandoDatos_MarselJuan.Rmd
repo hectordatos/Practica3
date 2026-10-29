@@ -463,15 +463,15 @@ Existen variables que, a priori, no tienen demasiado interés para el estudio qu
 ```{r }
 library(dplyr)
 
-# 1. En flights: eliminar 'time_hour' y las variables que terminan en 'time'
+# 1. En flights eliminar 'time_hour' y las variables que terminan en 'time'
 flights <- flights %>%
   select(-time_hour, -ends_with("time"))
 
-# 2. En planes: eliminar 'speed' y 'type'
+# 2. En planes eliminar 'speed' y 'type'
 planes <- planes %>%
   select(-speed, -type)
 
-# Comprobar las variables resultantes en ambos data frames
+
 colnames(flights)
 colnames(planes)
 ```
@@ -481,7 +481,16 @@ colnames(planes)
 Incorpora una nueva variable a `flights` denominado `Full_Date` que sea de tipo `character` que incorpore una cadena de texto de la forma `d-m-Y`. Donde `d` indica día, `m` mes e `Y` año, a partir de la información incluida en el data frame. Utiliza una función de **DPLYR** que permita conseguir este propósito. Elimina las variables originales involucradas en la creación de la nueva variable.
 
 ```{r }
+library(dplyr)
 
+flights <- flights %>%
+  mutate(
+    Full_Date = sprintf("%d-%d-%d", day, month, year),
+    .keep = "unused"
+  )
+
+# Comprobar el resultado
+head(flights)
 
 ```
 
