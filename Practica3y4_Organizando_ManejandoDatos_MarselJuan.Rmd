@@ -537,7 +537,7 @@ Opcionalmente se puede crear un identificador, `id`, asociado al nombre de la ca
 songs <- unique(billboard_tidy[, c("artist", "track", "time")])
 songs$id <- 1:nrow(songs)
 
-# Reordenar para poner el 'id' al principio
+
 songs <- songs[, c("id", "artist", "track", "time")]
 
 # 2. Tabla de ranking
@@ -567,7 +567,28 @@ Esto se puede hacer fácilmente con las librerías `plyr` y `dplyr`.
 En la librería *tidyr* hay varios conjuntos de datos. **table1** es un conjunto *tidy* pero **table5** no lo es. Realiza las operaciones necesarias para obtener **table1** a partir de **table5**. También deben coincidir los tipos de datos de las columnas.
 
 ```{r}
+library(tidyverse)
 
+table1
+table5
+
+table1_obtenida <- table5 %>%
+  # Unir el siglo y el año en la columna year
+  unite(col = "year", century, year, sep = "") %>%
+  
+  # Separar 'rate' en las columnas 'cases' y 'population'
+  separate(col = rate, into = c("cases", "population"), sep = "/") %>%
+  
+  # Convertir los tipos de datos para que coincidan con table1
+  mutate(
+    year = as.integer(year),
+    cases = as.integer(cases),
+    population = as.integer(population)
+  )
+
+# 2. Comprobar que coinciden valores y tipos de datos
+table1_obtenida
+all.equal(table1, table1_obtenida)
 
 ```
 
