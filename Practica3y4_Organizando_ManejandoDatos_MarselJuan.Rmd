@@ -461,7 +461,19 @@ Existen variables que, a priori, no tienen demasiado interés para el estudio qu
 - En el data frame `planes` quédate con todas las variables excepto `speed` y `type`.
 
 ```{r }
+library(dplyr)
 
+# 1. En flights: eliminar 'time_hour' y las variables que terminan en 'time'
+flights <- flights %>%
+  select(-time_hour, -ends_with("time"))
+
+# 2. En planes: eliminar 'speed' y 'type'
+planes <- planes %>%
+  select(-speed, -type)
+
+# Comprobar las variables resultantes en ambos data frames
+colnames(flights)
+colnames(planes)
 ```
 
 ### Ejercicio 10
