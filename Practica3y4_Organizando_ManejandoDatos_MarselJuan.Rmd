@@ -533,7 +533,19 @@ Separa los datos *tidy* que teníamos en el ejercicio 2 en dos tablas (data fram
 Opcionalmente se puede crear un identificador, `id`, asociado al nombre de la canción (`track`), y en la tabla de ranking solo usaremos este identificador en lugar del nombre de la canción.
 
 ```{r}
+# 1. Tabla de canciones 
+songs <- unique(billboard_tidy[, c("artist", "track", "time")])
+songs$id <- 1:nrow(songs)
 
+# Reordenar para poner el 'id' al principio
+songs <- songs[, c("id", "artist", "track", "time")]
+
+# 2. Tabla de ranking
+ranking <- merge(billboard_tidy, songs, by = c("artist", "track", "time"))
+ranking <- ranks[, c("id", "date", "week", "rank")]
+
+head(songs)
+head(ranking)
 
 
 ```
