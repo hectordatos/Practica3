@@ -499,6 +499,24 @@ head(flights)
 Utilizando las funciones `group_by`, `summarise` y `filter`, crea un data frame donde se calcule el número de vuelos (`Num_flights`), la distancia media recorrida (`Mean_distance`) y la distancia total recorrida (`Total_distance`) para cada uno de los aviones (`tailnum`) presentes en el conjunto `flights`. Descarta aquellos registros del data frame en los que la variable `tailnum` tenga un valor NA. Utiliza el operador pipe para enlazar las funciones. Almacena el data frame en una variable denominada `Distances_plane`.
 
 ```{r }
+library(dplyr)
+
+Distances_plane <- flights %>%
+  # 1. Filtrar registros para descartar valores NA en tailnum
+  filter(!is.na(tailnum)) %>%
+  
+  # 2. Agrupar por cada avión
+  group_by(tailnum) %>%
+  
+  # 3. Calcular el número de vuelos, la distancia media y la distancia total
+  summarise(
+    Num_flights = n(),
+    Mean_distance = mean(distance, na.rm = TRUE),
+    Total_distance = sum(distance, na.rm = TRUE)
+  )
+
+
+head(Distances_plane)
 
 ```
 
