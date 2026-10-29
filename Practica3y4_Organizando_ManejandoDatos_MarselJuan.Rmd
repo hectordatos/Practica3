@@ -236,8 +236,27 @@ Obtén la versión *tidy* de este conjunto de datos usando `pivot_longer`.
 Consejo: puedes eliminar el prefijo `wk` de las semanas mediante el argumento `names_prefix`. Opcionalmente puedes crear una columna `date` a partir de `date.entered`, sumando las semanas transcurridas desde la fecha de entrada en lista.
 
 ```{r}
+library(tidyverse)
+library(lubridate)
 
+# 1. Cargar el dataset
+load("./data/billboard.RData")
 
+# 2. Transformar a formato tidy
+billboard_tidy <- raw %>%
+  pivot_longer(
+    cols = starts_with("wk"),
+    names_to = "week",
+    names_prefix = "wk",
+    values_to = "rank",
+    values_drop_na = TRUE
+  ) %>%
+  mutate(
+    week = as.integer(week),
+    date = ymd(date.entered) + weeks(week - 1)
+  ) %>%
+  select(-date.entered) %>%
+  relocate(date, .before = week)
 ```
 
 ## Varias variables en una misma columna
