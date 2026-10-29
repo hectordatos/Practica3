@@ -353,6 +353,7 @@ weather_tidy <- raw %>%
     names_from = element,
     values_from = value
   )
+
 ```
 
 # DPLYR
@@ -397,7 +398,11 @@ load("./data/VuelosNY.Rdata")
 Muestra las primeras muestras de ambos data frames para hacerte una idea de las variables que contienen. ¿Qué diferencia existe entre la información mostrada en ambos data frames?
 
 ```{r }
+# Mostrar las primeras filas de ambos data frames
+head(flights)
+head(planes)
 
+# Flights nos da información sobre el vuelo, cuando sale, si va con retraso, el timepo que está en el aire, el origen el destino..., en cambio en planes nos da infromación sobre el avión modelo, asientos, motor...
 ```
 
 ### Ejercicio 6
