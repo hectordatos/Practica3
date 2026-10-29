@@ -277,7 +277,37 @@ Para pasar a formato *tidy* necesitamos realizar dos operaciones en este caso. E
 Convierte el conjunto de datos TB en *tidy* utilizando `gather` y `separate`.
 
 ```{r}
+library(tidyverse)
 
+# 1. Cargar el dataset
+load("./data/tb.RData")
+
+# 2. Convertir a formato tidy y aplicar transformaciones
+tb_tidy <- raw %>%
+  gather(
+    key = "demo",
+    value = "cases",
+    -country, -year,
+    na.rm = TRUE
+  ) %>%
+  separate(
+    col = demo,
+    into = c("sex", "age"),
+    sep = 1
+  ) %>%
+  mutate(
+    age = recode(
+      age,
+      "014"  = "0-14",
+      "1524" = "15-24",
+      "2534" = "25-34",
+      "3544" = "35-44",
+      "4554" = "45-54",
+      "5564" = "55-64",
+      "65"   = "65+"
+    )
+  ) %>%
+  arrange(country, year, sex, age)   
 ```
 
 ## Variables almacenadas tanto en filas como en columnas
